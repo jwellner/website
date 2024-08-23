@@ -1,0 +1,10 @@
+{% extends 'layout.njk' %}
+
+{% block title %}{{ seo.title }} : Jeroen Wellner{% endblock %}
+
+{% block content %}
+<article class="content">
+	<h1>{{ seo.title }}</h1>
+	{{ contents | safe }}
+</article>
+{% endblock %}

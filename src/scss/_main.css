@@ -1,0 +1,56 @@
+.page {
+	font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+	font-size: 1rem;
+	line-height: 1.3;
+	color: #444;
+	min-height: 100%;
+	-webkit-font-smoothing:antialiased;
+	text-rendering:optimizeLegibility;
+}
+
+
+.box {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* optional, sets the container's height to the viewport height */
+    flex-direction: column;
+}
+
+.item {
+    text-align: center;
+}
+
+.billboard {
+
+    .title {
+        margin: 10px 0 0 0;
+        background-color: #1258A5;
+        color: #fff;
+        padding: 0 10px;
+        transform: translate(0) rotate(-2deg);
+        display: inline-block;
+        &:hover {
+            transition: all .2s ease-in-out;
+            transform: scale(1.1);
+        }
+    }
+    
+    .title-link {
+        color: #fff;
+        text-decoration: none;
+    
+        &:hover {
+            color: #fff;
+        }
+    }
+    
+    .tagline {
+        margin: 0;
+    }
+}
+
+.container.home {
+    padding-top: 50px;
+    text-align:center;
+}

@@ -1,0 +1,16 @@
+{
+    "title": "Jeroen Wellner",
+    "description": "Jeroen Wellner - Freelance Mobile &amp; Web Developer",
+    "author": "jeroen@wllnr.nl",
+    "siteURL": "https://www.wllnr.nl",
+    "siteOwner": "Jeroen Wellner",
+    "validate": {
+      "google": "",
+      "ms": ""
+    },
+    "social": {
+      "linkedIn": "",
+      "github": ""
+    },
+    "socialImage": "/assets/favicon-32x32.png"
+  }

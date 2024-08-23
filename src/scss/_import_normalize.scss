@@ -1,0 +1,24 @@
+@import "normalize";
+
+@include normalize();
+
+*, *:before, *:after {
+	box-sizing: border-box;
+}
+
+html {
+	height: 100%;
+	background-color: #f7f7f7;
+}
+
+ul {
+	padding-left: 20px;
+}
+
+a {
+	color: #444;
+
+	&:hover {
+		text-decoration: none;
+	}
+}
