@@ -11,14 +11,14 @@ import drafts from '@metalsmith/drafts';
 import permalinks from '@metalsmith/permalinks';
 import metadata from '@metalsmith/metadata';
 import htmlMinifier from 'metalsmith-html-minifier';
-import assets from 'metalsmith-static-files';
-import sass from '@metalsmith/sass'
-import inlineCss from 'metalsmith-inline-css'
+import assets from 'metalsmith-assets';
+import sass from '@metalsmith/sass';
+import inlineCss from 'metalsmith-inline-css';
+import fingerprint from 'metalsmith-fingerprint';
 
 // ESM does not currently import JSON modules by default.
 // Ergo we'll JSON.parse the file manually
 import * as fs from 'fs';
-
 const { dependencies } = JSON.parse( fs.readFileSync( './package.json' ) );
 
 /* eslint-disable no-underscore-dangle */
@@ -64,8 +64,17 @@ function msBuild() {
       .source( './src/content' )
       .destination( './build' )
       .clean( true )
+      .use(
+        assets( {
+          source: './src/copy',
+          destination: './'
+        } )
+      )
+      .use( fingerprint({
+        pattern: 'assets/**/*.{css,js}',
+      }))
       .env( 'NODE_ENV', process.env.NODE_ENV )
-      // .env( 'DEBUG', process.env.DEBUG )
+      //.env( 'DEBUG', process.env.DEBUG )
       .metadata( {
         msVersion: dependencies.metalsmith,
         nodeVersion: process.version
@@ -77,14 +86,8 @@ function msBuild() {
         } )
       )
       .use( markdown() )
-      //.use( permalinks() )
+      .use( permalinks() )
       .use( layouts( templateConfig ) )
-      .use(
-        assets( {
-          source: 'src/assets/',
-          destination: 'assets/'
-        } )
-      )
       .use( isProduction ? htmlMinifier() : noop )
       .use(
         sass({

@@ -1,0 +1,122 @@
+.VanillaTerm {
+  background-color: #282828;
+  color: white;
+  font-family: "Inconsolata", "Courier New", Courier, monospace;
+  font-weight: bold;
+  overflow: hidden;
+  padding: 0.75em 1em;
+  min-width: 390px;
+  width: 66%;
+  min-height: 200px;
+  height: 360px;
+  margin: 40px 0;
+}
+
+.VanillaTerm .container {
+  width: 100%;
+  height: 100%;
+  overflow-y: scroll;
+  scrollbar-color: #33ff33 #282828;
+}
+.VanillaTerm .container ::selection {
+  background-color: #33ff33;
+  text-shadow: none !important;
+}
+
+.VanillaTerm output {
+  clear: both;
+  line-height: 1.25em;
+  width: 100%;
+}
+.VanillaTerm output pre {
+  margin: 0;
+}
+.VanillaTerm output span {
+  display: block;
+  font-weight: normal;
+  color: #33ff33;
+}
+
+.VanillaTerm .prompt,
+.VanillaTerm a {
+  color: #33ff33;
+  font-weight: bold;
+}
+
+.VanillaTerm .prompt {
+  line-height: 1.25em;
+  margin-right: 0.5em;
+}
+
+.VanillaTerm .command {
+  display: flex;
+}
+
+.VanillaTerm .command.input .prompt {
+  color: #33ff33;
+  font-weight: normal;
+}
+
+.VanillaTerm .command.idle .input {
+  display: none;
+}
+
+.VanillaTerm .command.hidden .prompt {
+  display: none;
+}
+
+.VanillaTerm .command.hidden .input {
+  max-width: 1px;
+}
+
+.VanillaTerm .command .input {
+  background-color: transparent;
+  border: none;
+  color: inherit;
+  font: inherit;
+  flex: 1;
+  margin: 0;
+  outline: none;
+  padding: 0;
+}
+
+.VanillaTerm .command .spinner:before {
+  display: inline-block;
+  content: "⠋";
+  animation: spin 1s linear infinite;
+  vertical-align: middle;
+  margin-right: 10px;
+}
+
+@keyframes spin {
+  0% {
+    content: "⠋";
+  }
+  10% {
+    content: "⠙";
+  }
+  20% {
+    content: "⠹";
+  }
+  30% {
+    content: "⠸";
+  }
+  40% {
+    content: "⠼";
+  }
+  50% {
+    content: "⠴";
+  }
+  60% {
+    content: "⠦";
+  }
+  70% {
+    content: "⠧";
+  }
+  80% {
+    content: "⠇";
+  }
+  90% {
+    content: "⠏";
+  }
+}
