@@ -4,3 +4,4 @@ node_modules/
 .firebaserc
 .wercker
 .firebase
+src/copy/
