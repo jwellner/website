@@ -1,4 +1,4 @@
-### www.wllnr.nl
+### Website
 
 Source code for my website
 
@@ -16,11 +16,4 @@ npm run serve
 
 ## Deploy
 
-```
-npm run build
-
-npm run firebase-token 
-export FIREBASE_TOKEN="<token>"
-
-npm run firebase-deploy -- --project wllnr-nl --token "$FIREBASE_TOKEN"
-```
+Push to main branch to run workflow
