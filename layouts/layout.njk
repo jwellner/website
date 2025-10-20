@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>{% block title %}Jeroen Wellner{% endblock %}</title>
 
-    <meta name="description" content="Jeroen Wellner - Freelance software/devops engineer">
+    <meta name="description" content="{% block description %}Jeroen Wellner - Freelance software/devops engineer{% endblock %}">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<meta name="theme-color" content="#1258A5">
 
@@ -14,12 +14,11 @@
     {% block head %}
     <link rel="stylesheet" href="/css/index.css" inline>
     {% endblock %}
+    <script src="/{{ fingerprint['assets/js/main.bundle.js'] }}" defer></script>
 </head>
 <body class="page">
   <main class="box">
     {% block content %}{% endblock %}
   </main>
-
-  <script src="/{{ fingerprint['assets/js/main.bundle.js'] }}"></script>
 </body>
 </html>
