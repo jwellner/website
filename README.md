@@ -6,12 +6,12 @@ Source code for my website
 
 Install dependencies 
 ```
-npm install
+yarn install
 ```
 
 Start dev server
 ```
-npm run serve
+yarn serve
 ```
 
 ## Deploy

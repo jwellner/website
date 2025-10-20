@@ -11,10 +11,11 @@ import drafts from '@metalsmith/drafts';
 import permalinks from '@metalsmith/permalinks';
 import metadata from '@metalsmith/metadata';
 import htmlMinifier from 'metalsmith-html-minifier';
-import assets from 'metalsmith-assets';
 import sass from '@metalsmith/sass';
 import inlineCss from 'metalsmith-inline-css';
 import fingerprint from 'metalsmith-fingerprint';
+import rollup from './plugins/rollup/index.cjs';
+import terser from '@rollup/plugin-terser';
 
 // ESM does not currently import JSON modules by default.
 // Ergo we'll JSON.parse the file manually
@@ -35,6 +36,9 @@ const thisYear = () => new Date().getFullYear();
 
 // Define engine options for the inplace and layouts plugins
 const templateConfig = {
+  transform: "nunjucks",
+  directory: 'layouts',
+  pattern: "**/*.html", 
   engineOptions: {
     smartypants: true,
     smartLists: true,
@@ -65,10 +69,17 @@ function msBuild() {
       .destination( './build' )
       .clean( true )
       .use(
-        assets( {
-          source: './src/copy',
-          destination: './'
-        } )
+        rollup({
+            input: 'src/js/main.js',
+            output: {
+                file: 'assets/js/main.bundle.js',
+                format: 'umd',
+                name: 'main'
+            },
+            plugins: [
+                terser()
+            ]
+	    })
       )
       .use( fingerprint({
         pattern: 'assets/**/*.{css,js}',
