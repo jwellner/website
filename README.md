@@ -11,7 +11,7 @@ yarn install
 
 Start dev server
 ```
-yarn serve
+yarn start
 ```
 
 ## Deploy

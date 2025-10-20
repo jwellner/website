@@ -69,6 +69,17 @@ function msBuild() {
       .source( './src/content' )
       .destination( './build' )
       .clean( true )
+      .env( 'NODE_ENV', process.env.NODE_ENV )
+      .metadata( {
+        msVersion: dependencies.metalsmith,
+        nodeVersion: process.version
+      } )
+      .use( isProduction ? noop : drafts() )
+      .use(
+        metadata( {
+          site: 'src/content/data/site.json'
+        } )
+      )
       .use(
         rollup({
             input: 'src/js/main.js',
@@ -80,25 +91,10 @@ function msBuild() {
             plugins: [terser()]
 	    })
       )
-      .use( fingerprint({
-        pattern: 'assets/**/*.{css,js}',
-      }))
-      .env( 'NODE_ENV', process.env.NODE_ENV )
-      //.env( 'DEBUG', process.env.DEBUG )
-      .metadata( {
-        msVersion: dependencies.metalsmith,
-        nodeVersion: process.version
-      } )
-      .use( isProduction ? noop : drafts() )
-      .use(
-        metadata( {
-          site: 'src/content/data/site.json'
-        } )
-      )
+      .use( fingerprint({ pattern: 'assets/**/*.{css,js}' }) )
       .use( markdown() )
       .use( permalinks() )
       .use( layouts( templateConfig ) )
-      .use( isProduction ? htmlMinifier() : noop )
       .use(
         sass({
           style: 'compressed',
@@ -108,12 +104,14 @@ function msBuild() {
           }
         })
       )
-      .use(inlineCss())
-      .use(htmlMinifier())
-      .use(assets({
-        src: 'public',
-        dest: '.'
-      }))
+      .use( inlineCss() )
+      .use( isProduction ? htmlMinifier() : noop )
+      .use(
+        assets({
+          src: 'public',
+          dest: '.'
+        })
+      )
   );
 }
 
