@@ -1,6 +1,4 @@
-@import "normalize";
-
-@include normalize();
+@use 'normalize';
 
 *, *:before, *:after {
 	box-sizing: border-box;

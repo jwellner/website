@@ -76,9 +76,7 @@ function msBuild() {
                 format: 'umd',
                 name: 'main'
             },
-            plugins: [
-                terser()
-            ]
+            plugins: [terser()]
 	    })
       )
       .use( fingerprint({
@@ -103,7 +101,7 @@ function msBuild() {
       .use(
         sass({
           style: 'compressed',
-          loadPaths: ['node_modules/normalize-scss/sass'],
+          loadPaths: ['node_modules/normalize-css'],
           entries: {
             'src/scss/index.scss': 'css/index.css',
           }

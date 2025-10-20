@@ -4,4 +4,3 @@ node_modules/
 .firebaserc
 .wercker
 .firebase
-public/assets/js/*.js

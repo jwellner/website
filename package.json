@@ -25,13 +25,13 @@
     "metalsmith-fingerprint": "^1.0.3",
     "metalsmith-html-minifier": "^4.0.1",
     "metalsmith-inline-css": "^1.0.12",
-    "normalize-scss": "^8.0.0",
     "rollup": "^4.52.4"
   },
   "engines": {
     "node": ">=14.0.0"
   },
   "dependencies": {
-    "cross-env": "^10.1.0"
+    "cross-env": "^10.1.0",
+    "normalize-css": "^2.3.1"
   }
 }
