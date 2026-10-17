@@ -11,7 +11,6 @@ Currently working with (updated October 2026):
 <dt>ship</dt><dd>Docker · GitHub Actions · Flux GitOps · SOPS</dd>
 <dt>run</dt><dd>Kubernetes (k3s, DOKS) · Traefik · cert-manager · Tailscale</dd>
 <dt>observe</dt><dd>Prometheus · Loki · Alloy · Grafana</dd>
-<dt>home</dt><dd>Home Assistant · Frigate · Syncthing</dd>
 <dt>with</dt><dd>Claude Code · Cursor · bb</dd>
 </dl>
 
