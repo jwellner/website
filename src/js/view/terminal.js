@@ -198,7 +198,7 @@ export default class Terminal {
         this.print("Terminal rebooted.");
     }
 
-    // --- fullscreen apps (top, vim, portfolio) -------------------------------
+    // --- fullscreen apps (top, vim, website) -------------------------------
 
     // `onKey` receives KeyboardEvents until `close()` is called.
     openScreen(onKey) {

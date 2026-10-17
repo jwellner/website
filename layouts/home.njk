@@ -10,6 +10,11 @@
     <div class="container home">
       {{ content | safe }}
     </div>
+    {% for section in collections.section | sort(false, false, 'data.order') %}
+      <section class="site-section" data-section data-title="{{ section.data.title }}">
+        {{ section.templateContent | safe }}
+      </section>
+    {% endfor %}
     <noscript>
       <p class="container home">The interactive terminal needs JavaScript. You can mail me at <a href="mailto:{{ site.author }}">{{ site.author }}</a>.</p>
     </noscript>

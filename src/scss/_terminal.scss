@@ -120,7 +120,7 @@ $red: #ff7b72;
   caret-shape: block;
 }
 
-// Fullscreen apps (top, vim, portfolio)
+// Fullscreen apps (top, vim, website)
 .term-screen {
   position: absolute;
   inset: 0;
@@ -157,94 +157,117 @@ $red: #ff7b72;
   }
 }
 
-.tui-title {
-  flex: none;
-  padding: 0 1ch;
-  background: $green;
-  color: #000;
-  font-weight: bold;
-}
+// `website` app: the site's own look (see _main.scss) inside the terminal.
+$site-blue: #1258a5;
 
-.tui-main {
-  display: flex;
-  flex: 1;
-  min-height: 0;
-  margin: 0.5rem 0;
-  border: 1px solid $green;
-}
+.term-screen.site-screen {
+  padding: 0;
+  background: #fff;
+  color: #444;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 1.1rem;
+  line-height: 1.4;
 
-.tui-menu {
-  flex: none;
-  min-width: 20ch;
-  margin: 0;
-  padding: 0.5rem 0;
-  list-style: none;
-  border-right: 1px solid $green;
-
-  button {
-    width: 100%;
-    padding: 0 1ch;
-    text-align: left;
+  a {
+    color: $site-blue;
+    font-weight: normal;
   }
 
-  .active button {
-    background: $green;
-    color: #000;
+  ::selection {
+    background: $site-blue;
+    color: #fff;
   }
 }
 
-.tui-content {
-  flex: 1;
-  padding: 0.5rem 2ch;
-  overflow: auto;
+.site-header {
+  flex: none;
+  padding: 1.25rem 1rem 0;
+  text-align: center;
+}
+
+.site-title {
+  display: inline-block;
+  padding: 0 0.4em;
+  background: $site-blue;
   color: #fff;
-
-  h2 {
-    margin: 0 0 0.75rem;
-    font-size: 1.2em;
-    color: $green;
-  }
-
-  p,
-  ul {
-    margin: 0 0 0.75rem;
-  }
-
-  ul {
-    padding-left: 2ch;
-  }
+  font-size: 2.2em;
+  font-weight: bold;
+  transform: rotate(-2deg);
 }
 
-.tui-footer {
+.site-tagline {
+  display: block;
+  margin-top: 0.4rem;
+}
+
+.site-nav {
   display: flex;
   flex: none;
   flex-wrap: wrap;
-  gap: 0 3ch;
+  gap: 0.25rem 1.25rem;
+  justify-content: center;
+  padding: 1rem;
+  border-bottom: 1px solid #ddd;
 
-  .tui-quit {
-    margin-left: auto;
-    padding: 0 1ch;
-    background: $green;
-    color: #000;
+  button {
+    padding: 0.2rem 0.1rem;
+    border-bottom: 2px solid transparent;
+    color: #444;
+
+    &.active {
+      border-bottom-color: $site-blue;
+      color: $site-blue;
+      font-weight: bold;
+    }
   }
 }
 
+.site-page {
+  box-sizing: border-box;
+  flex: 1;
+  width: 100%;
+  max-width: 40rem;
+  min-height: 0;
+  margin: 0 auto;
+  padding: 1.5rem 1rem;
+  overflow: auto;
+
+  h2 {
+    margin-top: 0;
+    color: $site-blue;
+  }
+}
+
+.site-footer {
+  display: flex;
+  flex: none;
+  gap: 1rem;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.5rem 1rem;
+  border-top: 1px solid #ddd;
+  color: #777;
+  font-size: 0.85rem;
+
+  .site-quit {
+    padding: 0.15rem 0.6rem;
+    border-radius: 3px;
+    background: $site-blue;
+    color: #fff;
+  }
+}
+
+.VanillaTerm button:focus-visible {
+  outline: 2px solid currentColor;
+}
+
 @media (max-width: 40rem) {
-  .tui-main {
-    flex-direction: column;
+  .site-keys {
+    display: none;
   }
 
-  .tui-menu {
-    display: flex;
-    flex-wrap: wrap;
-    min-width: 0;
-    padding: 0;
-    border-right: 0;
-    border-bottom: 1px solid $green;
-
-    button {
-      white-space: nowrap;
-    }
+  .site-footer {
+    justify-content: flex-end;
   }
 }
 

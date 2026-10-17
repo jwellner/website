@@ -15,9 +15,14 @@ function boot(container) {
         tagline: text(".tagline"),
         quote: text(".home"),
     };
+    const sections = [...container.querySelectorAll("[data-section]")].map((el) => ({
+        title: el.dataset.title,
+        html: el.innerHTML,
+    }));
     container.textContent = "";
 
-    const shell = new Shell({ commands, programs, history: new History() });
+    const site = { title: copy.title, tagline: copy.tagline, sections };
+    const shell = new Shell({ commands, programs, history: new History(), site });
     const terminal = new Terminal(container, shell);
 
     terminal.setBanner(() => {
@@ -26,7 +31,7 @@ function boot(container) {
             `<strong>${escapeHtml(heading)}</strong>`,
             ...(copy.quote ? [`<em>${escapeHtml(copy.quote)}</em>`] : []),
             "",
-            "Type <u>help</u> to see a list of commands, or <u>portfolio</u> for the short tour.",
+            "Type <u>help</u> to see a list of commands, or <u>website</u> for the short tour.",
         ];
     });
 

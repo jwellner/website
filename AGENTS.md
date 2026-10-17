@@ -23,6 +23,7 @@ Node `>=18`. Package manager is **yarn** (keep `yarn.lock` in sync; Docker uses 
 | Path | Role |
 |------|------|
 | `src/content/` | Pages (Markdown + front matter). Home uses `layout: home.njk`. |
+| `src/content/sections/` | Pages of the `website` TUI app (Markdown, ordered by `order`). Also rendered into the home page as the no-JS fallback. |
 | `src/content/_data/site.json` | Site-wide metadata (`site.*` in templates). |
 | `layouts/` | Nunjucks layouts (`layout.njk`, `home.njk`, `page.njk`). |
 | `src/js/` | Fullscreen terminal. Entry: `main.js` → Rollup bundle. |

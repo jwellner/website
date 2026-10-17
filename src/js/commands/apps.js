@@ -320,102 +320,78 @@ const vim = {
     },
 };
 
-// --- portfolio -------------------------------------------------------------------
+// --- website -------------------------------------------------------------------
 
-const SECTIONS = [
-    {
-        title: "About",
-        html: `<h2>Jeroen Wellner</h2>
-<p>Devops/Software Engineer</p>
-<p><em>"Building things for the Internet since 1996"</em></p>`,
-    },
-    {
-        title: "Skills",
-        html: `<h2>Skills</h2>
-<ul><li>Python</li><li>Javascript</li><li>Docker</li><li>Infrastructure</li><li>Databases</li><li>Networking</li></ul>`,
-    },
-    {
-        title: "Experience",
-        html: `<h2>Experience</h2>
-<p><strong>2011 - now</strong></p>
-<p>Freelance developer at Wellner IT Consultancy</p>`,
-    },
-    {
-        title: "Education",
-        html: `<h2>Education</h2>
-<ul><li>HBO Informatica</li><li>MBO Informatica</li></ul>`,
-    },
-    {
-        title: "Contact",
-        html: `<h2>Contact</h2>
-<p>Mail me at <a href="mailto:jeroen@wllnr.nl">jeroen@wllnr.nl</a>.</p>`,
-        open: "mailto:jeroen@wllnr.nl",
-    },
-    {
-        title: "This site",
-        html: `<h2>This site</h2>
-<p>Built with Eleventy, Sass and a small hand-written shell in vanilla JavaScript.</p>
-<p>Source: <a href="https://github.com/jwellner/website" target="_blank" rel="noopener noreferrer">github.com/jwellner/website</a></p>`,
-        open: "https://github.com/jwellner/website",
-    },
-];
-
-const portfolio = {
-    help: "Browse my resume in a full-screen app (press q to quit)",
-    usage: "portfolio",
+const website = {
+    help: "Browse this website in a full-screen app (press q to quit)",
+    usage: "website",
     async run(ctx) {
         const { term } = ctx;
+        const { title, tagline, sections } = ctx.shell.site;
+        if (!sections.length) {
+            ctx.err.print("website: no pages found");
+            return 1;
+        }
         let index = 0;
 
         const screen = term.openScreen((event) => {
             const { key } = event;
             if (isQuit(event) || key === "Escape") screen.close();
-            else if (key === "ArrowDown" || key === "j" || (key === "Tab" && !event.shiftKey)) select(index + 1);
-            else if (key === "ArrowUp" || key === "k" || key === "Tab") select(index - 1);
+            else if (key === "ArrowRight" || key === "ArrowDown" || key === "j" || key === "l" || (key === "Tab" && !event.shiftKey)) select(index + 1);
+            else if (key === "ArrowLeft" || key === "ArrowUp" || key === "k" || key === "h" || key === "Tab") select(index - 1);
             else if (key === "Home") select(0);
-            else if (key === "End") select(SECTIONS.length - 1);
-            else if (/^[1-9]$/.test(key) && Number(key) <= SECTIONS.length) select(Number(key) - 1);
-            else if (key === "Enter" && SECTIONS[index].open) open(SECTIONS[index].open);
+            else if (key === "End") select(sections.length - 1);
+            else if (key === "PageDown" || key === " ") page.scrollBy({ top: page.clientHeight * 0.9 });
+            else if (key === "PageUp") page.scrollBy({ top: -page.clientHeight * 0.9 });
+            else if (/^[1-9]$/.test(key) && Number(key) <= sections.length) select(Number(key) - 1);
+            else if (key === "Enter") follow();
         });
 
-        const open = (href) => {
-            if (href.startsWith("mailto:")) window.location.href = href;
-            else window.open(href, "_blank", "noopener,noreferrer");
-        };
-
-        screen.el.classList.add("tui");
+        screen.el.classList.add("site-screen");
         screen.el.innerHTML = `
-            <div class="tui-title">${escapeHtml(ctx.shell.user)}@${escapeHtml(ctx.shell.host)} ~ portfolio</div>
-            <div class="tui-main">
-                <ul class="tui-menu"></ul>
-                <div class="tui-content"></div>
-            </div>
-            <div class="tui-footer">
-                <span>↑/↓ select</span><span>1-${SECTIONS.length} jump</span><span>Enter open link</span>
-                <button type="button" class="tui-quit">q quit</button>
-            </div>`;
-        const menu = screen.el.querySelector(".tui-menu");
-        const content = screen.el.querySelector(".tui-content");
-        screen.el.querySelector(".tui-quit").addEventListener("click", () => screen.close());
+            <header class="site-header">
+                <span class="site-title">${escapeHtml(title)}</span>
+                <span class="site-tagline">${escapeHtml(tagline)}</span>
+            </header>
+            <nav class="site-nav" aria-label="Pages"></nav>
+            <main class="site-page"></main>
+            <footer class="site-footer">
+                <span class="site-keys">←/→ page · 1-${sections.length} jump · Enter open link</span>
+                <button type="button" class="site-quit">q back to terminal</button>
+            </footer>`;
+        const nav = screen.el.querySelector(".site-nav");
+        const page = screen.el.querySelector(".site-page");
+        screen.el.querySelector(".site-quit").addEventListener("click", () => screen.close());
 
-        const items = SECTIONS.map((section, i) => {
-            const li = document.createElement("li");
+        const tabs = sections.map((section, i) => {
             const button = document.createElement("button");
             button.type = "button";
-            button.textContent = `${i + 1}. ${section.title}`;
+            button.textContent = section.title;
             button.addEventListener("click", () => {
                 select(i);
                 term.focus();
             });
-            li.append(button);
-            menu.append(li);
+            nav.append(button);
             return button;
         });
 
+        // Open the first link of the current page (mailto: or external).
+        function follow() {
+            const link = page.querySelector("a[href]");
+            if (!link) return;
+            const href = link.getAttribute("href");
+            if (href.startsWith("mailto:")) window.location.href = href;
+            else window.open(href, "_blank", "noopener,noreferrer");
+        }
+
         function select(next) {
-            index = (next + SECTIONS.length) % SECTIONS.length;
-            items.forEach((button, i) => button.parentElement.classList.toggle("active", i === index));
-            content.innerHTML = SECTIONS[index].html; // trusted static markup
+            index = (next + sections.length) % sections.length;
+            tabs.forEach((tab, i) => {
+                tab.classList.toggle("active", i === index);
+                tab.setAttribute("aria-current", i === index ? "page" : "false");
+            });
+            page.innerHTML = sections[index].html; // trusted markup from src/content
+            page.scrollTop = 0;
         }
 
         select(0);
@@ -428,5 +404,5 @@ export default {
     top,
     vim,
     vi: { ...vim, hidden: true },
-    portfolio,
+    website,
 };

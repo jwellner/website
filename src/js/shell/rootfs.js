@@ -29,7 +29,7 @@ Nothing here is real, and nothing you change is saved.
 
   ls -la          look around, including hidden files
   cat Documents/resume.txt
-  portfolio       a little full-screen app (press q to quit)
+  website         browse this site in a full-screen app (q to quit)
   top             what is this machine up to?
   help            everything else
 

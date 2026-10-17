@@ -38,7 +38,7 @@ export default {
             names.forEach((name) => ctx.out.print(`  ${name.padEnd(width)}${commands[name].help}`));
             ctx.out.print("");
             ctx.out.print("Tab completes, Ctrl+R searches history, Ctrl+C cancels, Ctrl+L clears.");
-            ctx.out.print("Try: portfolio");
+            ctx.out.print("Try: website");
             return 0;
         },
     },

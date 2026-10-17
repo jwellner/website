@@ -378,9 +378,9 @@ export default {
 
     grep: {
         help: "Print lines that match a pattern",
-        usage: "grep [-inv] pattern [file...]",
+        usage: "grep [-inEv] pattern [file...]",
         run(ctx) {
-            const parsed = parseFlags(ctx, "inv");
+            const parsed = parseFlags(ctx, "invE");
             if (!parsed) return 2;
             const [pattern, ...files] = parsed.rest;
             if (pattern === undefined) {

@@ -26,7 +26,8 @@ const stripTags = (markup) =>
 const ASSIGNMENT = /^([A-Za-z_][A-Za-z0-9_]*)=(.*)$/s;
 
 export default class Shell {
-    constructor({ commands, programs, history }) {
+    constructor({ commands, programs, history, site = { sections: [] } }) {
+        this.site = site;
         this.commands = commands;
         this.programs = programs;
         this.history = history;
