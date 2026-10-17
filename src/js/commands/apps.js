@@ -324,15 +324,26 @@ const vim = {
 
 const website = {
     help: "Browse this website in a full-screen app (press q to quit)",
-    usage: "website",
+    usage: "website [page]",
     async run(ctx) {
         const { term } = ctx;
-        const { title, tagline, sections } = ctx.shell.site;
+        const { title, tagline, sections, onNavigate } = ctx.shell.site;
         if (!sections.length) {
             ctx.err.print("website: no pages found");
             return 1;
         }
+        const [wanted] = ctx.args;
         let index = 0;
+        if (wanted) {
+            const found = sections.findIndex(
+                (s) => s.slug === wanted.toLowerCase() || s.title.toLowerCase() === wanted.toLowerCase(),
+            );
+            if (found === -1) {
+                ctx.err.print(`website: no such page: ${wanted} (try: ${sections.map((s) => s.slug).join(", ")})`);
+                return 1;
+            }
+            index = found;
+        }
 
         const screen = term.openScreen((event) => {
             const { key } = event;
@@ -386,8 +397,9 @@ const website = {
             else window.open(href, "_blank", "noopener,noreferrer");
         }
 
-        function select(next) {
+        function select(next, { silent = false } = {}) {
             index = (next + sections.length) % sections.length;
+            if (!silent) onNavigate?.(sections[index].slug);
             tabs.forEach((tab, i) => {
                 tab.classList.toggle("active", i === index);
                 tab.setAttribute("aria-current", i === index ? "page" : "false");
@@ -396,7 +408,8 @@ const website = {
             page.scrollTop = 0;
         }
 
-        select(0);
+        // Opened at a page the user asked for: reflect it in the URL; the default page leaves it alone.
+        select(index, { silent: !wanted });
         await screen.closed;
         return 0;
     },

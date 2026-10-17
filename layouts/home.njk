@@ -1,20 +1,33 @@
 {% extends "layout.njk" %}
 
+{% block title %}{% if title %}{{ title }} : {{ site.title }}{% else %}{{ site.title }}{% endif %}{% endblock %}
+
 {% block content %}
-  {# Static fallback (SEO, no-JS). The terminal script replaces it. #}
-  <div id="vanilla-terminal">
+  {# Static fallback (SEO, no-JS) shown until the terminal script replaces it. #}
+  {% set isSection = tags and "section" in tags %}
+  <div id="vanilla-terminal" data-mode="{{ mode or 'site' }}"{% if isSection %} data-page="{{ page.fileSlug }}"{% endif %}>
     <div class="item billboard">
-      <h1 class="title"><a href="/" class="title-link">Jeroen Wellner</a></h1>
-      <p class="tagline">Devops/Software Engineer</p>
+      <h1 class="title"><a href="/" class="title-link">{{ site.title }}</a></h1>
+      <p class="tagline">{{ site.tagline }}</p>
     </div>
     <div class="container home">
-      {{ content | safe }}
+      <p class="quote">{{ site.quote }}</p>
     </div>
-    {% for section in collections.section | sort(false, false, 'data.order') %}
-      <section class="site-section" data-section data-title="{{ section.data.title }}">
-        {{ section.templateContent | safe }}
-      </section>
-    {% endfor %}
+    {% if isSection %}
+      <article class="site-section">{{ content | safe }}</article>
+    {% elif mode == "404" %}
+      <article class="site-section">{{ content | safe }}</article>
+    {% else %}
+      {% for section in collections.section | sort(false, false, 'data.order') %}
+        <section class="site-section">{{ section.templateContent | safe }}</section>
+      {% endfor %}
+    {% endif %}
+    {# Page data for the website app; every page carries all sections. #}
+    <template id="site-sections">
+      {% for section in collections.section | sort(false, false, 'data.order') %}
+        <section data-slug="{{ section.fileSlug }}" data-title="{{ section.data.title }}">{{ section.templateContent | safe }}</section>
+      {% endfor %}
+    </template>
     <noscript>
       <p class="container home">The interactive terminal needs JavaScript. You can mail me at <a href="mailto:{{ site.author }}">{{ site.author }}</a>.</p>
     </noscript>

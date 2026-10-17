@@ -2,8 +2,6 @@ import FileSystem, { dir, file } from "./fs.js";
 
 const BUILT = new Date("2025-01-15T09:00:00");
 
-const slug = (title) => title.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
-
 // The pages of the `website` app, as plain text files in ~/Documents. The page markup
 // is minified, so line breaks come from the block elements rather than from whitespace.
 const sectionText = (html) => {
@@ -61,8 +59,8 @@ export default function createRootFs(getUser, sections = []) {
                             Desktop: dir({}, { mtime: BUILT, owner: "user" }),
                             Documents: dir(
                                 Object.fromEntries(
-                                    sections.map(({ title, html }) => [
-                                        `${slug(title)}.txt`,
+                                    sections.map(({ slug, html }) => [
+                                        `${slug}.txt`,
                                         file(`${sectionText(html)}\n`, { mtime: BUILT, owner: "user" }),
                                     ]),
                                 ),
