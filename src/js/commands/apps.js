@@ -370,6 +370,7 @@ const website = {
             </div>
             <footer class="site-footer">
                 <span class="site-keys">↑/↓ page · 1-${sections.length} jump · Enter open link · Space scroll</span>
+                <span class="site-version">${escapeHtml(ctx.shell.site.version)}</span>
                 <button type="button" class="site-quit">q quit</button>
             </footer>`;
         const nav = screen.el.querySelector(".site-nav");

@@ -2,7 +2,6 @@ import { SYSTEM_PROCS } from "../shell/shell.js";
 import { formatDateTz, formatDuration, pad, time } from "../shell/format.js";
 import { parseFlags } from "./util.js";
 
-export const VERSION = "2.0.0";
 
 const KERNEL = "6.1.0-wllnr";
 
@@ -29,7 +28,7 @@ export default {
                 ctx.out.print(`Usage: ${cmd.usage}`);
                 return 0;
             }
-            ctx.out.print(`wllnr.nl terminal v${VERSION}. Type 'help name' for details on a command.`);
+            ctx.out.print(`wllnr.nl ${ctx.shell.site.version}. Type 'help name' for details on a command.`);
             ctx.out.print("");
             const names = Object.keys(commands)
                 .filter((name) => !commands[name].hidden)
@@ -65,7 +64,10 @@ export default {
     version: {
         help: "Print the terminal version",
         usage: "version",
-        run: (ctx) => ctx.out.print(`wllnr.nl terminal v${VERSION}`),
+        run(ctx) {
+            const { version, commit } = ctx.shell.site;
+            ctx.out.print(`wllnr.nl ${version}${commit ? ` (${commit})` : ""}`);
+        },
     },
 
     history: {

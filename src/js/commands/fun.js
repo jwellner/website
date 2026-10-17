@@ -77,7 +77,7 @@ export default {
             const info = [
                 `<span class="c-exec">${escapeHtml(title)}</span>`,
                 "-".repeat(title.length),
-                label("OS", "wllnr.nl 2.0"),
+                label("OS", `wllnr.nl ${shell.site.version}`),
                 label("Host", `${browser()} on the web`),
                 label("Kernel", "JavaScript (ES2022)"),
                 label("Uptime", formatDuration(Date.now() - shell.startedAt)),

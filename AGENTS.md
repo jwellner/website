@@ -41,6 +41,7 @@ Node `>=18`. Package manager is **yarn** (keep `yarn.lock` in sync; Docker uses 
 - A command is `{ help, usage, run(ctx) }` in `src/js/commands/`; `help`/`usage` feed `help` and `man`, so there is no separate help file. Use `ctx.out.print()` / `ctx.err.print()` (they escape and linkify). `ctx.out.html()` / `term.printHtml()` take trusted markup only: run anything user-controlled (file names, args, user name) through `escapeHtml()` first.
 - Commands that run for a while must honour `ctx.signal` (use `await ctx.sleep(ms)`) so Ctrl+C works. Fullscreen apps use `term.openScreen()` and must close on `q`/Ctrl+C.
 - The filesystem is static and in memory (`src/js/shell/rootfs.js`); nothing but command history and the last-login time is persisted (localStorage).
+- The release version (git tag) shows in the website footer, `version`, `help` and `neofetch`. CI passes `VERSION`/`COMMIT` as Docker build args (`deploy.yaml` → `Dockerfile` → `src/content/_data/build.js`); local builds show `dev`. Don't hardcode a version in JS.
 - The address bar follows the app via `history.replaceState` only (no history entries). Directory URLs rely on `absolute_redirect off` in `docker/default.conf`, because TLS terminates in front of the container.
 - Do not reintroduce document-level click/keyup handlers that steal focus; listeners stay on the terminal element.
 - Site copy/SEO: update `site.json` and page front matter rather than hardcoding in layouts when possible.

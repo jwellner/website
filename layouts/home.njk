@@ -5,7 +5,7 @@
 {% block content %}
   {# Static fallback (SEO, no-JS) shown until the terminal script replaces it. #}
   {% set isSection = tags and "section" in tags %}
-  <div id="vanilla-terminal" data-mode="{{ mode or 'site' }}"{% if isSection %} data-page="{{ page.fileSlug }}"{% endif %}>
+  <div id="vanilla-terminal" data-mode="{{ mode or 'site' }}" data-version="{{ build.version }}" data-commit="{{ build.commit }}"{% if isSection %} data-page="{{ page.fileSlug }}"{% endif %}>
     <div class="item billboard">
       <h1 class="title"><a href="/" class="title-link">{{ site.title }}</a></h1>
       <p class="tagline">{{ site.tagline }}</p>
