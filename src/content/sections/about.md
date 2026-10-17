@@ -4,6 +4,4 @@ order: 1
 ---
 ## About
 
-**Wellner IT Consultancy**, freelance software/devops engineer.
-
-Building things for the internet since 1996.
+Hi, I'm Jeroen. I'm a freelance software/devops engineer (**Wellner IT Consultancy**), building things for the internet since 1996.
