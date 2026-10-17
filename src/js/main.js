@@ -8,20 +8,35 @@ const container = document.getElementById("vanilla-terminal");
 
 function boot(container) {
     // The page ships with static fallback content (SEO, no-JS); the terminal replaces
-    // it, reusing the copy so it stays defined in site.json / index.md.
+    // it, reusing the copy so it stays defined in site.json and src/content/sections.
     const text = (selector) => container.querySelector(selector)?.textContent.trim() ?? "";
     const copy = {
         title: text(".title") || "Jeroen Wellner",
         tagline: text(".tagline"),
-        quote: text(".home"),
+        quote: text(".quote"),
     };
-    const sections = [...container.querySelectorAll("[data-section]")].map((el) => ({
+    const template = container.querySelector("template#site-sections");
+    const sections = [...(template?.content.querySelectorAll("section") ?? [])].map((el) => ({
+        slug: el.dataset.slug,
         title: el.dataset.title,
         html: el.innerHTML,
     }));
+    const { mode, page } = container.dataset;
     container.textContent = "";
 
-    const site = { title: copy.title, tagline: copy.tagline, sections };
+    const site = {
+        title: copy.title,
+        tagline: copy.tagline,
+        sections,
+        // Keep the address bar in step with the page shown, without adding history entries.
+        onNavigate: (slug) => {
+            try {
+                window.history.replaceState(null, "", `/${slug}/`);
+            } catch {
+                // Some embedders block the History API; the URL just stays put.
+            }
+        },
+    };
     const shell = new Shell({ commands, programs, history: new History(), site });
     const terminal = new Terminal(container, shell);
 
@@ -37,8 +52,17 @@ function boot(container) {
     });
 
     terminal.welcome();
-    // The site is the website app; quitting it (q) drops you into the shell.
-    if (sections.length) terminal.execute("website", { echo: false, record: false });
+    if (mode === "404") {
+        // An unknown URL is an unknown path: fail the way a shell would.
+        const path = window.location.pathname;
+        terminal.echo(shell.promptHtml(), `cat ${path}`);
+        terminal.printErr(`cat: ${path}: No such file or directory`);
+        terminal.print("Type help, or website to open the site.");
+        terminal.print();
+    } else if (sections.length) {
+        // The site is the website app (at the page in the URL); q drops you into the shell.
+        terminal.execute(page ? `website ${page}` : "website", { echo: false, record: false });
+    }
     window.VanillaTerminal = terminal;
 }
 

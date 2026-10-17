@@ -23,7 +23,7 @@ Node `>=18`. Package manager is **yarn** (keep `yarn.lock` in sync; Docker uses 
 | Path | Role |
 |------|------|
 | `src/content/` | Pages (Markdown + front matter). Home uses `layout: home.njk`. |
-| `src/content/sections/` | Pages of the `website` TUI app (Markdown, ordered by `order`). Also rendered into the home page as the no-JS fallback. |
+| `src/content/sections/` | Pages of the `website` TUI app (Markdown, ordered by `order`). Each is also a real page at `/<slug>/` (via `sections.json`), and all are embedded in every page for the app. |
 | `src/content/_data/site.json` | Site-wide metadata (`site.*` in templates). |
 | `layouts/` | Nunjucks layouts (`layout.njk`, `home.njk`, `page.njk`). |
 | `src/js/` | Fullscreen terminal. Entry: `main.js` → Rollup bundle. |
@@ -41,9 +41,10 @@ Node `>=18`. Package manager is **yarn** (keep `yarn.lock` in sync; Docker uses 
 - A command is `{ help, usage, run(ctx) }` in `src/js/commands/`; `help`/`usage` feed `help` and `man`, so there is no separate help file. Use `ctx.out.print()` / `ctx.err.print()` (they escape and linkify). `ctx.out.html()` / `term.printHtml()` take trusted markup only: run anything user-controlled (file names, args, user name) through `escapeHtml()` first.
 - Commands that run for a while must honour `ctx.signal` (use `await ctx.sleep(ms)`) so Ctrl+C works. Fullscreen apps use `term.openScreen()` and must close on `q`/Ctrl+C.
 - The filesystem is static and in memory (`src/js/shell/rootfs.js`); nothing but command history and the last-login time is persisted (localStorage).
+- The address bar follows the app via `history.replaceState` only (no history entries). Directory URLs rely on `absolute_redirect off` in `docker/default.conf`, because TLS terminates in front of the container.
 - Do not reintroduce document-level click/keyup handlers that steal focus; listeners stay on the terminal element.
 - Site copy/SEO: update `site.json` and page front matter rather than hardcoding in layouts when possible.
-- Home page body comes from `src/content/index.md` via `{{ content | safe }}` in `home.njk`. That markup is the no-JS/SEO fallback: `main.js` reads the title, tagline and quote from it for the terminal banner, then replaces it.
+- Title, tagline and quote live in `site.json` and are rendered by `home.njk`; `main.js` reads them from the static fallback markup (no-JS/SEO) and then replaces it. Section pages and the home page share `home.njk`; `404.md` uses it with `mode: "404"`, which makes the terminal print a shell-style error instead of opening the app (nginx still returns status 404).
 
 ## Out of scope unless asked
 

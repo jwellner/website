@@ -1,1 +1,7 @@
-{ "tags": "section", "permalink": false }
+{
+  "tags": "section",
+  "layout": "home.njk",
+  "eleventyComputed": {
+    "permalink": "/{{ page.fileSlug }}/"
+  }
+}
