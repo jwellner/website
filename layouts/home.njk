@@ -1,12 +1,17 @@
 {% extends "layout.njk" %}
 
 {% block content %}
-  <div class="item billboard">
-    <h1 class="title"><a href="/" class="title-link">Jeroen Wellner</a></h1>
-    <p class="tagline">Devops/Software Engineer</p>
+  {# Static fallback (SEO, no-JS). The terminal script replaces it. #}
+  <div id="vanilla-terminal">
+    <div class="item billboard">
+      <h1 class="title"><a href="/" class="title-link">Jeroen Wellner</a></h1>
+      <p class="tagline">Devops/Software Engineer</p>
+    </div>
+    <div class="container home">
+      {{ content | safe }}
+    </div>
+    <noscript>
+      <p class="container home">The interactive terminal needs JavaScript. You can mail me at <a href="mailto:{{ site.author }}">{{ site.author }}</a>.</p>
+    </noscript>
   </div>
-  <div class="container home">
-    {{ content | safe }}
-  </div>
-  <div id="vanilla-terminal"></div>
 {% endblock %}

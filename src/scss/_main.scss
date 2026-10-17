@@ -12,7 +12,8 @@
 .box {
     display: flex;
     align-items: center;
-    height: 100vh; /* optional, sets the container's height to the viewport height */
+    min-height: 100vh;
+    min-height: 100dvh;
     flex-direction: column;
 }
 
