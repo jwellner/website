@@ -4,4 +4,6 @@ order: 1
 ---
 ## About
 
-Freelance software/devops engineer.
+**Wellner IT Consultancy**, freelance software/devops engineer.
+
+Building things for the internet since 1996.

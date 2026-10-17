@@ -1,6 +1,6 @@
 ---
 title: This site
-order: 6
+order: 4
 ---
 ## This site
 

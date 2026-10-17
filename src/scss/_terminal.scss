@@ -224,8 +224,35 @@ $red: #ff7b72;
   }
 
   p,
-  ul {
+  ul,
+  pre {
     margin: 0 0 1rem;
+  }
+
+  pre {
+    overflow-x: auto;
+    color: $green;
+  }
+
+  dl {
+    display: grid;
+    grid-template-columns: max-content 1fr;
+    gap: 0 2ch;
+    margin: 0 0 1rem;
+  }
+
+  dt {
+    color: $green;
+    font-weight: bold;
+  }
+
+  dd {
+    margin: 0;
+    overflow-wrap: anywhere;
+  }
+
+  code {
+    font: inherit;
   }
 
   ul {
@@ -263,6 +290,14 @@ $red: #ff7b72;
 
   .site-main {
     flex-direction: column;
+  }
+
+  .site-page dl {
+    grid-template-columns: 1fr;
+  }
+
+  .site-page dd {
+    margin-bottom: 0.5rem;
   }
 
   .site-nav {
