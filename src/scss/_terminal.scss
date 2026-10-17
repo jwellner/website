@@ -267,6 +267,11 @@ $red: #ff7b72;
 }
 
 .site-footer {
+  .site-version {
+    margin-left: auto;
+    opacity: 0.7;
+  }
+
   .site-quit {
     padding: 0 1ch;
     background: $green;

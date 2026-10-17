@@ -37,5 +37,8 @@ jobs:
         with:
           context: .
           push: true
+          build-args: |
+            VERSION=${{ steps.meta.outputs.tag }}
+            COMMIT=${{ github.sha }}
           tags: |
             ghcr.io/${{ github.repository }}/website:${{ steps.meta.outputs.tag }}

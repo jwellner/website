@@ -21,13 +21,15 @@ function boot(container) {
         title: el.dataset.title,
         html: el.innerHTML,
     }));
-    const { mode, page } = container.dataset;
+    const { mode, page, version, commit } = container.dataset;
     container.textContent = "";
 
     const site = {
         title: copy.title,
         tagline: copy.tagline,
         sections,
+        version: version || "dev",
+        commit: commit || "",
         // Keep the address bar in step with the page shown, without adding history entries.
         onNavigate: (slug) => {
             try {
