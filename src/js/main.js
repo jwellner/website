@@ -32,6 +32,7 @@ function boot(container) {
             ...(copy.quote ? [`<em>${escapeHtml(copy.quote)}</em>`] : []),
             "",
             "Type <u>help</u> to see a list of commands, or <u>website</u> for the short tour.",
+            ...(window.matchMedia?.("(pointer: coarse)").matches ? ["Tap anywhere to type."] : []),
         ];
     });
 
