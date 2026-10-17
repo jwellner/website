@@ -1,123 +1,287 @@
-.VanillaTerm {
-  background-color: #282828;
-  color: white;
-  font-family: "Inconsolata", "Courier New", Courier, monospace;
-  font-weight: bold;
+$green: #33ff33;
+$blue: #5fa8ff;
+$red: #ff7b72;
+
+.page:has(.VanillaTerm) {
   overflow: hidden;
-  padding: 0.75em 1em;
+}
+
+.VanillaTerm {
+  --term-bg: #1b1b1b;
+  position: relative;
   box-sizing: border-box;
-  width: min(66%, 100%);
-  max-width: 100%;
-  min-height: 200px;
-  height: 360px;
-  margin: 40px 0;
+  width: 100%;
+  height: 100vh;
+  height: 100dvh;
+  background: var(--term-bg);
+  color: $green;
+  font-family: ui-monospace, "SF Mono", "Cascadia Mono", "DejaVu Sans Mono", Menlo, Consolas, "Inconsolata", monospace;
+  font-size: 1rem;
+  line-height: 1.3;
+  overflow: hidden;
+  transition: opacity 1s;
+
+  &.fade {
+    opacity: 0;
+  }
+
+  ::selection {
+    background: $green;
+    color: #000;
+    text-shadow: none;
+  }
+
+  a {
+    color: $green;
+    font-weight: bold;
+  }
+
+  button {
+    font: inherit;
+    color: inherit;
+    background: none;
+    border: 0;
+    padding: 0;
+    cursor: pointer;
+  }
 }
 
-.VanillaTerm .container {
-  width: 100%;
+.term-scroll {
+  box-sizing: border-box;
   height: 100%;
-  overflow-y: scroll;
-  scrollbar-color: #33ff33 #282828;
-}
-.VanillaTerm .container ::selection {
-  background-color: #33ff33;
-  text-shadow: none !important;
+  padding: 0.75rem 1rem;
+  overflow-y: auto;
+  scrollbar-color: $green #1b1b1b;
 }
 
-.VanillaTerm output {
-  clear: both;
-  line-height: 1.25em;
-  width: 100%;
-}
-.VanillaTerm output pre {
-  margin: 0;
-}
-.VanillaTerm output span {
-  display: block;
-  font-weight: normal;
-  color: #33ff33;
+.term-output .line {
+  min-height: 1.3em;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+
+  &:empty::before {
+    content: "\200b";
+  }
+
+  &.echo {
+    color: #fff;
+  }
+
+  &.err {
+    color: $red;
+  }
 }
 
-.VanillaTerm .prompt,
-.VanillaTerm a {
-  color: #33ff33;
+.p-user,
+.c-exec {
+  color: $green;
   font-weight: bold;
 }
 
-.VanillaTerm .prompt {
-  line-height: 1.25em;
-  margin-right: 0.5em;
+.p-path,
+.c-dir {
+  color: $blue;
+  font-weight: bold;
 }
 
-.VanillaTerm .command {
+.ls {
+  white-space: normal;
+  word-spacing: 1ch;
+}
+
+.term-command {
   display: flex;
+  align-items: baseline;
+
+  // While a command runs the input stays focused (for Ctrl+C) but is invisible.
+  &.busy {
+    height: 0;
+    overflow: hidden;
+  }
 }
 
-.VanillaTerm .command.input .prompt {
-  color: #33ff33;
-  font-weight: normal;
+.term-prompt {
+  flex: none;
+  white-space: pre;
+  color: #fff;
 }
 
-.VanillaTerm .command.idle .input {
-  display: none;
-}
-
-.VanillaTerm .command.hidden .prompt {
-  display: none;
-}
-
-.VanillaTerm .command.hidden .input {
-  max-width: 1px;
-}
-
-.VanillaTerm .command .input {
-  background-color: transparent;
-  border: none;
-  color: inherit;
-  font: inherit;
+.term-input {
   flex: 1;
+  min-width: 0;
   margin: 0;
-  outline: none;
   padding: 0;
+  border: 0;
+  outline: none;
+  background: transparent;
+  color: #fff;
+  font: inherit;
+  caret-color: $green;
+  caret-shape: block;
 }
 
-.VanillaTerm .command .spinner:before {
-  display: inline-block;
-  content: "⠋";
-  animation: spin 1s linear infinite;
-  vertical-align: middle;
-  margin-right: 10px;
+// Fullscreen apps (top, vim, website)
+.term-screen {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  padding: 0.75rem 1rem;
+  background: var(--term-bg);
+  overflow: hidden;
 }
 
-@keyframes spin {
-  0% {
-    content: "⠋";
+.app-pre {
+  flex: 1;
+  min-height: 0;
+  margin: 0;
+  overflow: auto;
+  font: inherit;
+  color: #fff;
+}
+
+.app-status {
+  flex: none;
+  padding: 0 1ch;
+  background: $green;
+  color: #000;
+  white-space: pre;
+}
+
+.vim-body {
+  .cursor {
+    background: $green;
+    color: #000;
   }
-  10% {
-    content: "⠙";
+}
+
+// `website` app: the site's pages as a terminal app (same fonts and colors as the shell).
+.site-bar,
+.site-footer {
+  display: flex;
+  flex: none;
+  gap: 2ch;
+  justify-content: space-between;
+  padding: 0 1ch;
+}
+
+.site-bar {
+  background: $green;
+  color: #000;
+  font-weight: bold;
+
+  .site-tagline {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
-  20% {
-    content: "⠹";
+}
+
+.site-main {
+  display: flex;
+  flex: 1;
+  min-height: 0;
+  margin: 0.5rem 0;
+  border: 1px solid $green;
+}
+
+.site-nav {
+  flex: none;
+  min-width: 20ch;
+  padding: 0.5rem 0;
+  border-right: 1px solid $green;
+
+  button {
+    display: block;
+    width: 100%;
+    padding: 0 1ch;
+    text-align: left;
+
+    &.active {
+      background: $green;
+      color: #000;
+    }
   }
-  30% {
-    content: "⠸";
+}
+
+.site-page {
+  flex: 1;
+  min-width: 0;
+  padding: 0.5rem 2ch;
+  overflow: auto;
+  color: #fff;
+
+  h2 {
+    margin: 0 0 1rem;
+    color: $green;
+    font-size: inherit;
+
+    &::before {
+      content: "# ";
+    }
   }
-  40% {
-    content: "⠼";
+
+  p,
+  ul {
+    margin: 0 0 1rem;
   }
-  50% {
-    content: "⠴";
+
+  ul {
+    padding: 0;
+    list-style: none;
   }
-  60% {
-    content: "⠦";
+
+  li::before {
+    content: "* ";
+    color: $green;
   }
-  70% {
-    content: "⠧";
+}
+
+.site-footer {
+  .site-quit {
+    padding: 0 1ch;
+    background: $green;
+    color: #000;
   }
-  80% {
-    content: "⠇";
+}
+
+.VanillaTerm button:focus-visible {
+  outline: 2px solid currentColor;
+}
+
+@media (max-width: 40rem) {
+  .site-keys,
+  .site-bar .site-tagline {
+    display: none;
   }
-  90% {
-    content: "⠏";
+
+  .site-footer {
+    justify-content: flex-end;
+  }
+
+  .site-main {
+    flex-direction: column;
+  }
+
+  .site-nav {
+    display: flex;
+    flex-wrap: wrap;
+    min-width: 0;
+    padding: 0;
+    border-right: 0;
+    border-bottom: 1px solid $green;
+
+    button {
+      width: auto;
+      white-space: nowrap;
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .VanillaTerm {
+    transition: none;
   }
 }
