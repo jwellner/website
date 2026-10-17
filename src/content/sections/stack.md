@@ -4,7 +4,7 @@ order: 2
 ---
 ## Stack
 
-What I'm building with lately:
+Currently working with (updated October 2026):
 
 <dl class="stack">
 <dt>build</dt><dd>TypeScript · Node.js · Fastify · Vite · PostgreSQL · S3 storage</dd>
