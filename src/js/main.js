@@ -31,12 +31,14 @@ function boot(container) {
             `<strong>${escapeHtml(heading)}</strong>`,
             ...(copy.quote ? [`<em>${escapeHtml(copy.quote)}</em>`] : []),
             "",
-            "Type <u>help</u> to see a list of commands, or <u>website</u> for the short tour.",
+            "Type <u>help</u> to see a list of commands, or <u>website</u> to open the site again.",
             ...(window.matchMedia?.("(pointer: coarse)").matches ? ["Tap anywhere to type."] : []),
         ];
     });
 
     terminal.welcome();
+    // The site is the website app; quitting it (q) drops you into the shell.
+    if (sections.length) terminal.execute("website", { echo: false, record: false });
     window.VanillaTerminal = terminal;
 }
 

@@ -484,7 +484,7 @@ export default class Terminal {
         return this.execute(value);
     }
 
-    async execute(value, { echo = true } = {}) {
+    async execute(value, { echo = true, record = true } = {}) {
         if (echo) this.echo(this.shell.promptHtml(), value);
         const line = value.trim();
         if (!line) return;
@@ -493,7 +493,7 @@ export default class Terminal {
         this.controller = new AbortController();
         this.updateChrome();
         try {
-            await this.shell.run(line, this, this.controller.signal);
+            await this.shell.run(line, this, this.controller.signal, { record });
         } catch (error) {
             console.error(error);
             this.printErr("bash: internal error");

@@ -34,7 +34,7 @@ export default class Shell {
         this.user = "guest";
         this.host = "wllnr";
         this.status = 0;
-        this.fs = createRootFs(() => this.user);
+        this.fs = createRootFs(() => this.user, this.site.sections);
         this.startedAt = Date.now();
         this.bashPid = 3000 + Math.floor(Math.random() * 1000);
         this.pidCounter = this.bashPid + 10;
@@ -148,7 +148,7 @@ export default class Shell {
         return [...names].sort();
     }
 
-    async run(line, term, signal) {
+    async run(line, term, signal, { record = true } = {}) {
         try {
             const expanded = this.history.expand(line);
             if (expanded.changed) term.print(expanded.line);
@@ -159,7 +159,7 @@ export default class Shell {
             this.status = 1;
             return;
         }
-        this.history.add(line);
+        if (record) this.history.add(line);
 
         let list;
         try {
