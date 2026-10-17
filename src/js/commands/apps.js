@@ -349,15 +349,17 @@ const website = {
 
         screen.el.classList.add("site-screen");
         screen.el.innerHTML = `
-            <header class="site-header">
-                <span class="site-title">${escapeHtml(title)}</span>
-                <span class="site-tagline">${escapeHtml(tagline)}</span>
+            <header class="site-bar">
+                <span>${escapeHtml(ctx.shell.user)}@${escapeHtml(ctx.shell.host)} ~ website</span>
+                <span class="site-tagline">${escapeHtml([title, tagline].filter(Boolean).join(" - "))}</span>
             </header>
-            <nav class="site-nav" aria-label="Pages"></nav>
-            <main class="site-page"></main>
+            <div class="site-main">
+                <nav class="site-nav" aria-label="Pages"></nav>
+                <main class="site-page"></main>
+            </div>
             <footer class="site-footer">
-                <span class="site-keys">←/→ page · 1-${sections.length} jump · Enter open link</span>
-                <button type="button" class="site-quit">q back to terminal</button>
+                <span class="site-keys">↑/↓ page · 1-${sections.length} jump · Enter open link · Space scroll</span>
+                <button type="button" class="site-quit">q quit</button>
             </footer>`;
         const nav = screen.el.querySelector(".site-nav");
         const page = screen.el.querySelector(".site-page");
@@ -366,7 +368,7 @@ const website = {
         const tabs = sections.map((section, i) => {
             const button = document.createElement("button");
             button.type = "button";
-            button.textContent = section.title;
+            button.textContent = `${i + 1}. ${section.title}`;
             button.addEventListener("click", () => {
                 select(i);
                 term.focus();

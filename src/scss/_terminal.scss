@@ -157,103 +157,93 @@ $red: #ff7b72;
   }
 }
 
-// `website` app: the site's own look (see _main.scss) inside the terminal.
-$site-blue: #1258a5;
-
-.term-screen.site-screen {
-  padding: 0;
-  background: #fff;
-  color: #444;
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-  font-size: 1.1rem;
-  line-height: 1.4;
-
-  a {
-    color: $site-blue;
-    font-weight: normal;
-  }
-
-  ::selection {
-    background: $site-blue;
-    color: #fff;
-  }
-}
-
-.site-header {
+// `website` app: the site's pages as a terminal app (same fonts and colors as the shell).
+.site-bar,
+.site-footer {
+  display: flex;
   flex: none;
-  padding: 1.25rem 1rem 0;
-  text-align: center;
+  gap: 2ch;
+  justify-content: space-between;
+  padding: 0 1ch;
 }
 
-.site-title {
-  display: inline-block;
-  padding: 0 0.4em;
-  background: $site-blue;
-  color: #fff;
-  font-size: 2.2em;
+.site-bar {
+  background: $green;
+  color: #000;
   font-weight: bold;
-  transform: rotate(-2deg);
+
+  .site-tagline {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
 }
 
-.site-tagline {
-  display: block;
-  margin-top: 0.4rem;
+.site-main {
+  display: flex;
+  flex: 1;
+  min-height: 0;
+  margin: 0.5rem 0;
+  border: 1px solid $green;
 }
 
 .site-nav {
-  display: flex;
   flex: none;
-  flex-wrap: wrap;
-  gap: 0.25rem 1.25rem;
-  justify-content: center;
-  padding: 1rem;
-  border-bottom: 1px solid #ddd;
+  min-width: 20ch;
+  padding: 0.5rem 0;
+  border-right: 1px solid $green;
 
   button {
-    padding: 0.2rem 0.1rem;
-    border-bottom: 2px solid transparent;
-    color: #444;
+    display: block;
+    width: 100%;
+    padding: 0 1ch;
+    text-align: left;
 
     &.active {
-      border-bottom-color: $site-blue;
-      color: $site-blue;
-      font-weight: bold;
+      background: $green;
+      color: #000;
     }
   }
 }
 
 .site-page {
-  box-sizing: border-box;
   flex: 1;
-  width: 100%;
-  max-width: 40rem;
-  min-height: 0;
-  margin: 0 auto;
-  padding: 1.5rem 1rem;
+  min-width: 0;
+  padding: 0.5rem 2ch;
   overflow: auto;
+  color: #fff;
 
   h2 {
-    margin-top: 0;
-    color: $site-blue;
+    margin: 0 0 1rem;
+    color: $green;
+    font-size: inherit;
+
+    &::before {
+      content: "# ";
+    }
+  }
+
+  p,
+  ul {
+    margin: 0 0 1rem;
+  }
+
+  ul {
+    padding: 0;
+    list-style: none;
+  }
+
+  li::before {
+    content: "* ";
+    color: $green;
   }
 }
 
 .site-footer {
-  display: flex;
-  flex: none;
-  gap: 1rem;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0.5rem 1rem;
-  border-top: 1px solid #ddd;
-  color: #777;
-  font-size: 0.85rem;
-
   .site-quit {
-    padding: 0.15rem 0.6rem;
-    border-radius: 3px;
-    background: $site-blue;
-    color: #fff;
+    padding: 0 1ch;
+    background: $green;
+    color: #000;
   }
 }
 
@@ -262,12 +252,31 @@ $site-blue: #1258a5;
 }
 
 @media (max-width: 40rem) {
-  .site-keys {
+  .site-keys,
+  .site-bar .site-tagline {
     display: none;
   }
 
   .site-footer {
     justify-content: flex-end;
+  }
+
+  .site-main {
+    flex-direction: column;
+  }
+
+  .site-nav {
+    display: flex;
+    flex-wrap: wrap;
+    min-width: 0;
+    padding: 0;
+    border-right: 0;
+    border-bottom: 1px solid $green;
+
+    button {
+      width: auto;
+      white-space: nowrap;
+    }
   }
 }
 
