@@ -1,7 +1,7 @@
 {
   "title": "Jeroen Wellner",
-  "description": "Jeroen Wellner - Freelance software/devops engineer",
-  "tagline": "Devops/Software Engineer",
+  "description": "Jeroen Wellner, freelance software, DevOps and AI engineer: LLM features in production, self-hosted models on Kubernetes and AI coding agents.",
+  "tagline": "Software/DevOps & AI Engineer",
   "quote": "Building things for the Internet since 1996",
   "author": "jeroen@wllnr.nl",
   "siteURL": "https://www.wllnr.nl",
@@ -14,5 +14,16 @@
     "linkedIn": "",
     "github": ""
   },
-  "socialImage": "/assets/favicon-32x32.png"
+  "socialImage": "/assets/og-image.png",
+  "jobTitle": "Freelance software, DevOps and AI engineer",
+  "knowsAbout": [
+    "Software engineering",
+    "DevOps",
+    "Kubernetes",
+    "GitOps",
+    "Observability",
+    "Large language models",
+    "Self-hosted AI models",
+    "AI coding agents"
+  ]
 }

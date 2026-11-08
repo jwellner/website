@@ -2,9 +2,36 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>{% block title %}{{ site.title }}{% endblock %}</title>
+    <title>{{ pageTitle }}</title>
 
-    <meta name="description" content="{% block description %}{{ site.description }}{% endblock %}">
+    <meta name="description" content="{{ pageDescription }}">
+    {%- if noindex %}
+    <meta name="robots" content="noindex">
+    {%- else %}
+    <link rel="canonical" href="{{ site.siteURL }}{{ page.url }}">
+    {%- endif %}
+    <meta property="og:type" content="{{ 'profile' if page.url == '/' else 'website' }}">
+    <meta property="og:site_name" content="{{ site.title }}">
+    <meta property="og:title" content="{{ pageTitle }}">
+    <meta property="og:description" content="{{ pageDescription }}">
+    <meta property="og:url" content="{{ site.siteURL }}{{ page.url }}">
+    <meta property="og:image" content="{{ site.siteURL }}{{ site.socialImage }}">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="Jeroen Wellner, Software/DevOps &amp; AI Engineer">
+    <meta name="twitter:card" content="summary_large_image">
+    {%- if page.url == '/' %}
+    <script type="application/ld+json">{{ {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": site.siteOwner,
+      "url": site.siteURL,
+      "email": "mailto:" + site.author,
+      "jobTitle": site.jobTitle,
+      "worksFor": { "@type": "Organization", "name": "Wellner IT Consultancy" },
+      "knowsAbout": site.knowsAbout
+    } | dump | safe }}</script>
+    {%- endif %}
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#1258A5">
 

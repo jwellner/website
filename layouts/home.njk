@@ -1,7 +1,5 @@
 {% extends "layout.njk" %}
 
-{% block title %}{% if title %}{{ title }} : {{ site.title }}{% else %}{{ site.title }}{% endif %}{% endblock %}
-
 {% block content %}
   {# Static fallback (SEO, no-JS) shown until the terminal script replaces it. #}
   {% set isSection = tags and "section" in tags %}

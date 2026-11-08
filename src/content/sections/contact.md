@@ -1,6 +1,7 @@
 ---
 title: Contact
-order: 3
+order: 4
+description: "Contact Jeroen Wellner, freelance software, DevOps and AI engineer."
 ---
 ## Contact
 
