@@ -1,7 +1,7 @@
 ---
 title: Stack
 order: 3
-description: "Jeroen Wellner's stack: TypeScript, Node.js, PostgreSQL, Kubernetes, Flux GitOps, Grafana, self-hosted LLMs and AI coding agents."
+description: "Jeroen Wellner's stack: TypeScript, Node.js, PostgreSQL, Kubernetes, Flux GitOps, Grafana, Postgres tuning, email deliverability, self-hosted LLMs and AI coding agents."
 ---
 ## Stack
 
@@ -12,6 +12,8 @@ Currently working with (updated November 2026):
 <dt>ship</dt><dd>Docker · GitHub Actions · Flux GitOps · SOPS</dd>
 <dt>run</dt><dd>Kubernetes (k3s, DOKS) · Traefik · cert-manager · Tailscale</dd>
 <dt>observe</dt><dd>Prometheus · Loki · Alloy · Grafana</dd>
+<dt>tune</dt><dd>PostgreSQL query &amp; index tuning · connection leaks · p95 latency · replicas</dd>
+<dt>mail</dt><dd>deliverability · SPF/DKIM/DMARC · bounce &amp; suppression handling · routing &amp; webhooks</dd>
 <dt>ai</dt><dd>OpenRouter · self-hosted Qwen / GLM on k3s · vision &amp; moderation models · MCP</dd>
 <dt>agents</dt><dd>Claude Code · Codex · Cursor · bb (orchestration, plugins, skills)</dd>
 </dl>
