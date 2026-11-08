@@ -52,8 +52,6 @@ apps:
   home:
     - home-assistant       # lights, sensors and the attic scenes
     - music-assistant      # music in every room
-  ai:
-    - llm                  # self-hosted open models for agents and experiments
   observe:
     - prometheus
     - loki
@@ -64,7 +62,7 @@ apps:
 [x] reach it all over Tailscale, close every port
 [x] attic light scenes
 [x] music in every room
-[x] run open models locally for the agents
+[x] run an open model locally for the agents (not in the cluster)
 [x] alert when a Kubernetes job fails
 [ ] figure out why that job failed
 [ ] stop adding things to the homelab
