@@ -18,6 +18,12 @@ export const SYSTEM_PROCS = [
     { pid: 311, user: "root", cmd: "/usr/sbin/sshd -D" },
     { pid: 502, user: "root", cmd: "nginx: master process" },
     { pid: 503, user: "www-data", cmd: "nginx: worker process" },
+    // The AI coding agents that work on this site (see the `agents` command).
+    { pid: 1420, user: "agent", cmd: "bb daemon --agents" },
+    { pid: 1433, user: "agent", cmd: "claude --agent reviewer/bugs" },
+    { pid: 1434, user: "agent", cmd: "claude --agent reviewer/security" },
+    { pid: 1447, user: "agent", cmd: "codex exec bughunt --weekly" },
+    { pid: 1452, user: "agent", cmd: "claude --agent architect --weekly" },
 ];
 
 const stripTags = (markup) =>

@@ -27,7 +27,11 @@ const top = {
 
         const render = () => {
             const rows = [
-                ...SYSTEM_PROCS.map((p) => ({ ...p, cpu: p.pid === 503 ? randomBetween(0, 0.3) : 0, start: shell.startedAt })),
+                ...SYSTEM_PROCS.map((p) => ({
+                    ...p,
+                    cpu: p.user === "agent" ? randomBetween(0.5, 6) : p.pid === 503 ? randomBetween(0, 0.3) : 0,
+                    start: shell.startedAt,
+                })),
                 { pid: shell.bashPid, user: shell.user, cmd: "-bash", cpu: randomBetween(0, 0.2), start: shell.startedAt },
                 ...[...shell.procs.values()].map((p) => ({
                     ...p,
