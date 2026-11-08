@@ -1,6 +1,6 @@
 {
   "title": "Jeroen Wellner",
-  "description": "Jeroen Wellner, freelance software, DevOps and AI engineer: LLM features in production, self-hosted models on Kubernetes and AI coding agents.",
+  "description": "Jeroen Wellner, freelance software, DevOps and AI engineer: LLM features in production, open and local models and AI coding agents.",
   "tagline": "Software/DevOps & AI Engineer",
   "quote": "Building things for the Internet since 1996",
   "author": "jeroen@wllnr.nl",
@@ -23,7 +23,7 @@
     "GitOps",
     "Observability",
     "Large language models",
-    "Self-hosted AI models",
+    "Open and local LLMs",
     "AI coding agents",
     "PostgreSQL performance tuning",
     "Email deliverability",
