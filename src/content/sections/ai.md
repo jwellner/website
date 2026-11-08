@@ -9,7 +9,8 @@ What I do with AI, day to day:
 
 <dl>
 <dt>build</dt><dd>LLM features in production: persona-driven conversations, prompt and reasoning tuning, a second model as guardrail, retries and fallbacks when a provider goes down.</dd>
-<dt>models</dt><dd>Open models (Qwen, GLM, vision models) through OpenRouter, compared per use case on quality, speed and cost. A local Qwen on my own hardware for coding agents.</dd>
+<dt>models</dt><dd>Open models through OpenRouter, picked per job after comparing DeepSeek, Qwen and GLM on quality, speed and cost. In production DeepSeek V4.1 Flash writes the messages with GLM as fallback, GLM reads images with Grok as backup, and a small decision model checks every line.</dd>
+<dt>code</dt><dd>Frontier models for the code itself: mostly Claude Opus in Claude Code for writing it, and GPT-6 Astra in Codex for reviewing it. A local Qwen on my own hardware for cheap experiments.</dd>
 <dt>delegate</dt><dd>A team of coding agents: every pull request gets paired bug and security reviews, plus scheduled bug hunts, architecture reviews and weekly summaries.</dd>
 <dt>extend</dt><dd>Custom agent skills, plugins and MCP integrations to give agents access to cluster, metrics and data.</dd>
 </dl>

@@ -14,8 +14,8 @@ Currently working with (updated November 2026):
 <dt>observe</dt><dd>Prometheus · Loki · Alloy · Grafana</dd>
 <dt>tune</dt><dd>PostgreSQL query &amp; index tuning · connection leaks · p95 latency · replicas</dd>
 <dt>mail</dt><dd>deliverability · SPF/DKIM/DMARC · bounce &amp; suppression handling · routing &amp; webhooks</dd>
-<dt>ai</dt><dd>OpenRouter · Qwen · GLM · vision models · local LLMs · MCP</dd>
-<dt>agents</dt><dd>Claude Code · Codex · Cursor · bb (orchestration, plugins, skills)</dd>
+<dt>ai</dt><dd>OpenRouter · DeepSeek · GLM · Qwen · Grok · local Qwen · MCP</dd>
+<dt>agents</dt><dd>Claude Code + Opus (coding) · Codex + GPT-6 Astra (review) · bb (orchestration, plugins, skills)</dd>
 </dl>
 
 This site ships the same way: tag, GitHub Actions builds the image, Flux rolls it out.
