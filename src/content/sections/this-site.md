@@ -1,6 +1,7 @@
 ---
 title: This site
-order: 4
+order: 5
+description: "How wllnr.nl is built: Eleventy, Sass and a hand-written terminal in vanilla JavaScript."
 ---
 ## This site
 

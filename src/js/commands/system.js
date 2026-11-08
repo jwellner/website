@@ -246,6 +246,9 @@ export default {
                     shell.procs.delete(pid);
                     proc.stop?.();
                     ctx.out.print(`[1]+  Terminated              ${proc.cmd}`);
+                } else if (SYSTEM_PROCS.some((p) => p.pid === pid && p.user === "agent")) {
+                    ctx.err.print(`bash: kill: (${pid}) - Operation not permitted (the agents answer to Jeroen; try: agents)`);
+                    ctx.status = 1;
                 } else if (SYSTEM_PROCS.some((p) => p.pid === pid)) {
                     ctx.err.print(`bash: kill: (${pid}) - Operation not permitted`);
                     ctx.status = 1;

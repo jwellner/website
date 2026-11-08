@@ -28,6 +28,49 @@ Nothing here is real, and nothing you change is saved.
 Poke around. There is at least one secret.
 `;
 
+// ~/homelab: what runs at home. Kept vague on purpose (no hostnames or addresses).
+const homelab = {
+    "README.md": `# homelab
+
+A small k3s cluster at home, run the same way as production:
+everything is in Git, Flux applies it, SOPS keeps the secrets.
+
+Nothing is exposed to the internet. Everything is reached over Tailscale.
+
+  cat cluster.yaml   what runs where
+  cat todo.txt       what is next (it never gets shorter)
+`,
+    "cluster.yaml": `# Managed by Flux. Do not edit by hand (yes, that means you).
+cluster: k3s
+gitops: flux
+secrets: sops
+network:
+  ingress: traefik
+  tls: cert-manager
+  access: tailscale        # no open ports
+apps:
+  home:
+    - home-assistant       # lights, sensors and the attic scenes
+    - music-assistant      # music in every room
+  ai:
+    - llm                  # self-hosted open models for agents and experiments
+  observe:
+    - prometheus
+    - loki
+    - alloy
+    - grafana              # with alerts for when a job fails at 3am
+`,
+    "todo.txt": `[x] move everything to GitOps
+[x] reach it all over Tailscale, close every port
+[x] attic light scenes
+[x] music in every room
+[x] run open models locally for the agents
+[x] alert when a Kubernetes job fails
+[ ] figure out why that job failed
+[ ] stop adding things to the homelab
+`,
+};
+
 const passwd = (user) => () =>
     `root:x:0:0:root:/root:/bin/bash
 daemon:x:1:1:daemon:/usr/sbin:/usr/sbin/nologin
@@ -62,6 +105,15 @@ export default function createRootFs(getUser, sections = []) {
                                     sections.map(({ slug, html }) => [
                                         `${slug}.txt`,
                                         file(`${sectionText(html)}\n`, { mtime: BUILT, owner: "user" }),
+                                    ]),
+                                ),
+                                { mtime: BUILT, owner: "user" },
+                            ),
+                            homelab: dir(
+                                Object.fromEntries(
+                                    Object.entries(homelab).map(([name, text]) => [
+                                        name,
+                                        file(text, { mtime: BUILT, owner: "user" }),
                                     ]),
                                 ),
                                 { mtime: BUILT, owner: "user" },

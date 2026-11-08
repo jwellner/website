@@ -24,6 +24,23 @@ const FORTUNES = [
     "Works in production, fails in staging. Famous last words.",
 ];
 
+// The agents also show up in `ps aux` and `top` (SYSTEM_PROCS in shell/shell.js).
+const AGENTS = [
+    ["reviewer/bugs", "reads every pull request for bugs", "on every PR"],
+    ["reviewer/security", "reads every PR for security holes", "on every PR"],
+    ["bughunter", "hunts bugs nobody reported yet", "weekly"],
+    ["architect", "senior architecture review", "weekly"],
+    ["scribe", "summarises the week on GitHub", "weekly"],
+];
+
+const STANDUP = [
+    ["reviewer/bugs", "one finding: off-by-one in a loop. It's always off-by-one."],
+    ["reviewer/security", "all user input escaped. Checked twice, trusted once."],
+    ["bughunter", "found a bug, wrote a failing test, opened a PR."],
+    ["architect", "proposes an ADR about whether we need this standup."],
+    ["scribe", "will put all of the above in Monday's summary."],
+];
+
 const browser = () => {
     const ua = navigator.userAgent;
     if (/Edg\//.test(ua)) return "Edge";
@@ -83,8 +100,8 @@ export default {
                 label("Uptime", formatDuration(Date.now() - shell.startedAt)),
                 label("Shell", "vanilla-term"),
                 label("Resolution", `${window.innerWidth}x${window.innerHeight}`),
-                label("Languages", "Python, Javascript"),
-                label("Interests", "Docker, Infrastructure, Databases, Networking"),
+                label("Languages", "TypeScript, JavaScript, SQL, Bash"),
+                label("Interests", "Kubernetes, GitOps, Postgres, LLMs, AI agents"),
             ];
             const rows = Math.max(LOGO.length, info.length);
             const out = [];
@@ -114,6 +131,31 @@ export default {
         help: "Print a random adage",
         usage: "fortune",
         run: (ctx) => ctx.out.print(FORTUNES[Math.floor(Math.random() * FORTUNES.length)]),
+    },
+
+    agents: {
+        hidden: true,
+        help: "Meet the AI agents that work on this site",
+        usage: "agents",
+        async run(ctx) {
+            ctx.out.print("Agents on duty at wllnr (orchestrated by bb):");
+            ctx.out.print("");
+            const [nameWidth, jobWidth] = [0, 1].map((i) => Math.max(...AGENTS.map((a) => a[i].length)) + 2);
+            ctx.out.print(`  ${"NAME".padEnd(nameWidth)}${"JOB".padEnd(jobWidth)}SCHEDULE`);
+            AGENTS.forEach(([name, job, schedule]) =>
+                ctx.out.print(`  ${name.padEnd(nameWidth)}${job.padEnd(jobWidth)}${schedule}`),
+            );
+            ctx.out.print("");
+            ctx.out.print("Daily standup:");
+            for (const [name, line] of STANDUP) {
+                await ctx.sleep(700);
+                ctx.out.print(`  ${name}: ${line}`);
+            }
+            await ctx.sleep(700);
+            ctx.out.print("");
+            ctx.out.print("Human in the loop: jeroen. Nothing ships without Jeroen's review.");
+            return 0;
+        },
     },
 
     contact: {
