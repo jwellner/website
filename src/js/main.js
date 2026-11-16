@@ -2,6 +2,7 @@ import { commands, programs } from "./commands/index.js";
 import History from "./shell/history.js";
 import Shell from "./shell/shell.js";
 import escapeHtml from "./shell/escapeHtml.js";
+import * as stats from "./stats.js";
 import Terminal from "./view/terminal.js";
 
 const container = document.getElementById("vanilla-terminal");
@@ -37,7 +38,11 @@ function boot(container) {
             } catch {
                 // Some embedders block the History API; the URL just stays put.
             }
+            const section = sections.find((s) => s.slug === slug);
+            stats.pageview(`/${slug}/`, section ? `${section.title} - ${copy.title}` : copy.title);
         },
+        // Commands typed by the visitor (name only, never arguments).
+        onCommand: (name) => stats.event(name),
     };
     const shell = new Shell({ commands, programs, history: new History(), site });
     const terminal = new Terminal(container, shell);
@@ -53,6 +58,7 @@ function boot(container) {
         ];
     });
 
+    stats.pageview(window.location.pathname, document.title, { initial: true });
     terminal.welcome();
     if (mode === "404") {
         // An unknown URL is an unknown path: fail the way a shell would.

@@ -1,0 +1,51 @@
+server {
+    listen       80;
+    listen  [::]:80;
+    server_name  localhost;
+    # /about -> /about/ must stay relative: TLS is terminated in front of this container.
+    absolute_redirect off;
+
+    gzip on;
+    gzip_types text/plain text/css application/javascript application/json image/svg+xml;
+    gzip_comp_level 5;
+    gzip_min_length 256;
+
+    location ~* .(?:css|js)$ {
+        root   /usr/share/nginx/html;
+        expires 1y;
+        add_header Cache-Control "public";
+    }
+
+    # Visitor stats (src/js/stats.js): hand hits to GoatCounter in the cluster
+    # (apps/base/goatcounter in flux-homelab-cluster). The upstream is a variable so it is
+    # resolved per request: nginx still starts where it doesn't exist (local docker run),
+    # /count just fails there.
+    location = /count {
+        resolver ${NGINX_LOCAL_RESOLVERS} valid=30s ipv6=off;
+        resolver_timeout 2s;
+        set $goatcounter http://goatcounter.goatcounter.svc.cluster.local;
+        proxy_pass $goatcounter/count$is_args$args;
+        proxy_set_header Host stats.beast.local.wllnr.com;
+        # The first address is the visitor (set by Pangolin); GoatCounter uses it for the
+        # country and the unique-visit hash and does not store it.
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto https;
+        proxy_connect_timeout 2s;
+        proxy_read_timeout 5s;
+        access_log off;
+    }
+
+    location / {
+        root   /usr/share/nginx/html;
+        index  index.html index.htm;
+    }
+
+    error_page  404              /404.html;
+
+    # redirect server error pages to the static page /50x.html
+    #
+    error_page   500 502 503 504  /50x.html;
+    location = /50x.html {
+        root   /usr/share/nginx/html;
+    }
+}

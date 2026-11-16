@@ -33,7 +33,7 @@ Node `>=18`. Package manager is **yarn** (keep `yarn.lock` in sync; Docker uses 
 | `src/scss/` | Styles. Entry: `index.scss`. |
 | `public/assets/` | Static assets (passthrough). |
 | `eleventy.config.js` | Build: Sass, Rollup, inline CSS/JS, HTML minify. |
-| `Dockerfile` / `docker/default.conf` | nginx image serving `build/`. |
+| `Dockerfile` / `docker/default.conf.template` | nginx image serving `build/`. |
 
 ## Conventions
 
@@ -41,8 +41,9 @@ Node `>=18`. Package manager is **yarn** (keep `yarn.lock` in sync; Docker uses 
 - A command is `{ help, usage, run(ctx) }` in `src/js/commands/`; `help`/`usage` feed `help` and `man`, so there is no separate help file. Use `ctx.out.print()` / `ctx.err.print()` (they escape and linkify). `ctx.out.html()` / `term.printHtml()` take trusted markup only: run anything user-controlled (file names, args, user name) through `escapeHtml()` first.
 - Commands that run for a while must honour `ctx.signal` (use `await ctx.sleep(ms)`) so Ctrl+C works. Fullscreen apps use `term.openScreen()` and must close on `q`/Ctrl+C.
 - The filesystem is static and in memory (`src/js/shell/rootfs.js`); nothing but command history and the last-login time is persisted (localStorage).
+- Visitor stats go to a self-hosted GoatCounter (`src/js/stats.js`): page views (initial load + `onNavigate`) and the names of typed commands as events (`site.onCommand`, never arguments). nginx proxies `/count` to the in-cluster service; it is skipped on localhost, for automated browsers and with DNT/GPC.
 - The release version (git tag) shows in the website footer, `version`, `help` and `neofetch`. CI passes `VERSION`/`COMMIT` as Docker build args (`deploy.yaml` → `Dockerfile` → `src/content/_data/build.js`); local builds show `dev`. Don't hardcode a version in JS.
-- The address bar follows the app via `history.replaceState` only (no history entries). Directory URLs rely on `absolute_redirect off` in `docker/default.conf`, because TLS terminates in front of the container.
+- The address bar follows the app via `history.replaceState` only (no history entries). Directory URLs rely on `absolute_redirect off` in `docker/default.conf.template`, because TLS terminates in front of the container.
 - Do not reintroduce document-level click/keyup handlers that steal focus; listeners stay on the terminal element.
 - Site copy/SEO: update `site.json` and page front matter rather than hardcoding in layouts when possible.
 - Title, tagline and quote live in `site.json` and are rendered by `home.njk`; `main.js` reads them from the static fallback markup (no-JS/SEO) and then replaces it. Section pages and the home page share `home.njk`; `404.md` uses it with `mode: "404"`, which makes the terminal print a shell-style error instead of opening the app (nginx still returns status 404).

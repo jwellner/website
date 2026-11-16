@@ -40,6 +40,7 @@ export default class Shell {
         this.user = "guest";
         this.host = "wllnr";
         this.status = 0;
+        this.reporting = false;
         this.fs = createRootFs(() => this.user, this.site.sections);
         this.startedAt = Date.now();
         this.bashPid = 3000 + Math.floor(Math.random() * 1000);
@@ -166,6 +167,8 @@ export default class Shell {
             return;
         }
         if (record) this.history.add(line);
+        // Only lines the visitor typed are reported; the app opened at boot is not.
+        this.reporting = record;
 
         let list;
         try {
@@ -232,6 +235,7 @@ export default class Shell {
             term.printErr(`bash: ${name}: ${found.error}`);
             return { status: found.status, output: "" };
         }
+        if (this.reporting) this.site.onCommand?.(name.split("/").pop());
 
         const buffer = [];
         const out = capture
